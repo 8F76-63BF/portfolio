@@ -390,6 +390,40 @@
       margin: 0 auto;
     }
 
+    /* 分类标签 */
+    .works__category {
+      max-width: 900px;
+      margin: 0 auto 20px;
+      padding-left: 4px;
+    }
+    .works__category-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      padding: 8px 20px;
+      border-radius: 999px;
+    }
+    .works__category-tag--anime {
+      background: rgba(0, 212, 170, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(0, 212, 170, 0.25);
+    }
+    .works__category-tag--real {
+      background: rgba(108, 99, 255, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(108, 99, 255, 0.25);
+    }
+    .works__category-divider {
+      max-width: 900px;
+      margin: 40px auto;
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-glass), transparent);
+    }
+
     /* 作品卡片 */
     .work-card {
       background: var(--bg-glass);
@@ -473,18 +507,13 @@
       max-width: var(--max-width);
       margin: 0 auto;
     }
-    .contact__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: start;
-    }
-
-    /* 左侧联系信息 */
+    /* 联系信息（居中） */
     .contact__info {
       display: flex;
       flex-direction: column;
       gap: 24px;
+      max-width: 500px;
+      margin: 0 auto;
     }
     .contact__item {
       display: flex;
@@ -514,75 +543,6 @@
       line-height: 1.7;
       margin-top: 4px;
       padding-left: 4px;
-    }
-
-    /* 右侧联系表单 */
-    .contact__form {
-      background: var(--bg-glass);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius);
-      padding: 32px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    .contact__form .form-group {
-      margin-bottom: 20px;
-    }
-    .contact__form label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-secondary);
-    }
-    .contact__form input,
-    .contact__form textarea {
-      width: 100%;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-sm);
-      color: var(--text-primary);
-      font-size: 0.95rem;
-      font-family: inherit;
-      transition: border-color var(--transition);
-      resize: vertical;
-    }
-    .contact__form input:focus,
-    .contact__form textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-glow);
-    }
-    .contact__form textarea {
-      min-height: 100px;
-    }
-    .contact__form .btn--primary {
-      width: 100%;
-      justify-content: center;
-    }
-
-    /* 表单提交后的 Toast */
-    .toast {
-      position: fixed;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      z-index: 3000;
-      background: var(--accent);
-      color: #000;
-      padding: 14px 28px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      box-shadow: 0 8px 32px var(--accent-glow);
-      opacity: 0;
-      transition: all 0.4s ease;
-      pointer-events: none;
-    }
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
     }
 
     /* ==================== 密码验证弹窗 ==================== */
@@ -693,12 +653,6 @@
     }
 
     /* ==================== 响应式 ==================== */
-    @media (max-width: 1024px) {
-      .contact__grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
     @media (max-width: 768px) {
       /* 汉堡菜单 */
       .hamburger {
@@ -839,13 +793,18 @@
       <h2 class="section__title reveal">精选<span>作品</span></h2>
       <p class="section__subtitle reveal">每一帧，都是AI与创意的碰撞</p>
 
+      <!-- ===== 二维 / 动漫风格 ===== -->
+      <div class="works__category">
+        <span class="works__category-tag works__category-tag--anime">
+          <i class="fa-solid fa-paint-brush"></i> 二维 · 动漫风格
+        </span>
+      </div>
       <div class="works__grid">
 
         <!-- 作品卡片 1：麻辣小火锅 第一集 -->
-        <!-- ★ 替换视频：修改 data-bvid 为新的 BV 号，并更新标题/描述 -->
         <article class="work-card reveal" data-bvid="BV1zQGJ6pER5" tabindex="0" role="button"
                  aria-label="查看作品：麻辣小火锅第一集" data-href="https://www.bilibili.com/video/BV1zQGJ6pER5">
-          <div class="work-card__thumb" data-cover>
+          <div class="work-card__thumb" data-cover style="background-image: url('images/cover-01.jpg');">
             <div class="work-card__thumb-overlay">
               <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
             </div>
@@ -863,7 +822,7 @@
         <!-- 作品卡片 2：麻辣小火锅 第二集 -->
         <article class="work-card reveal" data-bvid="BV1JQGJ6pEWd" tabindex="0" role="button"
                  aria-label="查看作品：麻辣小火锅第二集" data-href="https://www.bilibili.com/video/BV1JQGJ6pEWd">
-          <div class="work-card__thumb" data-cover>
+          <div class="work-card__thumb" data-cover style="background-image: url('images/cover-02.png');">
             <div class="work-card__thumb-overlay">
               <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
             </div>
@@ -878,28 +837,10 @@
           </div>
         </article>
 
-        <!-- 作品卡片 3：一簪入梦 -->
-        <article class="work-card reveal" data-bvid="BV1KEgQ6EECK" tabindex="0" role="button"
-                 aria-label="查看作品：一簪入梦" data-href="https://www.bilibili.com/video/BV1KEgQ6EECK?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
-          <div class="work-card__thumb" data-cover>
-            <div class="work-card__thumb-overlay">
-              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
-            </div>
-          </div>
-          <div class="work-card__body">
-            <h3 class="work-card__title">《一簪入梦》</h3>
-            <p class="work-card__desc">古风意境短片，以簪为引，入梦寻踪，展现东方美学韵味</p>
-            <div class="work-card__tools">
-              <span class="work-card__tool-tag">AI视频生成</span>
-              <span class="work-card__tool-tag">古风创作</span>
-            </div>
-          </div>
-        </article>
-
         <!-- 作品卡片 4：二维武侠江湖 -->
         <article class="work-card reveal" data-bvid="BV1SggQ6XEcZ" tabindex="0" role="button"
                  aria-label="查看作品：二维武侠江湖" data-href="https://www.bilibili.com/video/BV1SggQ6XEcZ?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
-          <div class="work-card__thumb" data-cover>
+          <div class="work-card__thumb" data-cover style="background-image: url('images/cover-04.png');">
             <div class="work-card__thumb-overlay">
               <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
             </div>
@@ -914,46 +855,10 @@
           </div>
         </article>
 
-        <!-- 作品卡片 5：无人机宣传片 -->
-        <article class="work-card reveal" data-bvid="BV1xEgQ6EEoe" tabindex="0" role="button"
-                 aria-label="查看作品：无人机宣传片" data-href="https://www.bilibili.com/video/BV1xEgQ6EEoe?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
-          <div class="work-card__thumb" data-cover>
-            <div class="work-card__thumb-overlay">
-              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
-            </div>
-          </div>
-          <div class="work-card__body">
-            <h3 class="work-card__title">无人机宣传片</h3>
-            <p class="work-card__desc">航拍视觉大片，以空中视角展现震撼场景与科技力量</p>
-            <div class="work-card__tools">
-              <span class="work-card__tool-tag">宣传片</span>
-              <span class="work-card__tool-tag">航拍创作</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- 作品卡片 6：鞋子宣传片 -->
-        <article class="work-card reveal" data-bvid="BV1KEgQ6EErY" tabindex="0" role="button"
-                 aria-label="查看作品：鞋子宣传片" data-href="https://www.bilibili.com/video/BV1KEgQ6EErY?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
-          <div class="work-card__thumb" data-cover>
-            <div class="work-card__thumb-overlay">
-              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
-            </div>
-          </div>
-          <div class="work-card__body">
-            <h3 class="work-card__title">鞋子宣传片</h3>
-            <p class="work-card__desc">产品创意广告，融合动感镜头与光影特效，展现潮流单品魅力</p>
-            <div class="work-card__tools">
-              <span class="work-card__tool-tag">产品广告</span>
-              <span class="work-card__tool-tag">创意特效</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- 作品卡片 7：赛博特效创意短片，赛博雷神 -->
+        <!-- 作品卡片 7：赛博雷神 -->
         <article class="work-card reveal" data-bvid="BV1SggQ6XE1S" tabindex="0" role="button"
                  aria-label="查看作品：赛博雷神" data-href="https://www.bilibili.com/video/BV1SggQ6XE1S?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
-          <div class="work-card__thumb" data-cover>
+          <div class="work-card__thumb" data-cover style="background-image: url('images/cover-07.png');">
             <div class="work-card__thumb-overlay">
               <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
             </div>
@@ -968,28 +873,10 @@
           </div>
         </article>
 
-        <!-- 作品卡片 8：欧美打斗 -->
-        <article class="work-card reveal" data-bvid="BV1sJgQ6mEio" tabindex="0" role="button"
-                 aria-label="查看作品：欧美打斗" data-href="https://www.bilibili.com/video/BV1sJgQ6mEio?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
-          <div class="work-card__thumb" data-cover>
-            <div class="work-card__thumb-overlay">
-              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
-            </div>
-          </div>
-          <div class="work-card__body">
-            <h3 class="work-card__title">欧美打斗</h3>
-            <p class="work-card__desc">高燃动作短片，硬核欧美风打斗场面，拳拳到肉的视觉冲击</p>
-            <div class="work-card__tools">
-              <span class="work-card__tool-tag">AI视频生成</span>
-              <span class="work-card__tool-tag">动作特效</span>
-            </div>
-          </div>
-        </article>
-
         <!-- 作品卡片 9：赛博科技，未来创意 -->
         <article class="work-card reveal" data-bvid="BV1UggQ6XE97" tabindex="0" role="button"
                  aria-label="查看作品：赛博科技未来创意" data-href="https://www.bilibili.com/video/BV1UggQ6XE97?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
-          <div class="work-card__thumb" data-cover>
+          <div class="work-card__thumb" data-cover style="background-image: url('images/cover-09.png');">
             <div class="work-card__thumb-overlay">
               <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
             </div>
@@ -1000,6 +887,91 @@
             <div class="work-card__tools">
               <span class="work-card__tool-tag">AI视频生成</span>
               <span class="work-card__tool-tag">未来科技</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- 分类分隔线 -->
+      <hr class="works__category-divider" aria-hidden="true">
+
+      <!-- ===== 仿真人 / 写实风格 ===== -->
+      <div class="works__category">
+        <span class="works__category-tag works__category-tag--real">
+          <i class="fa-solid fa-user-group"></i> 仿真人 · 写实风格
+        </span>
+      </div>
+      <div class="works__grid">
+
+        <!-- 作品卡片 5：无人机宣传片 -->
+        <article class="work-card reveal" data-bvid="BV1xEgQ6EEoe" tabindex="0" role="button"
+                 aria-label="查看作品：无人机宣传片" data-href="https://www.bilibili.com/video/BV1xEgQ6EEoe?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover style="background-image: url('images/cover-05.png');">
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">无人机宣传片</h3>
+            <p class="work-card__desc">航拍视觉大片，以空中视角展现震撼场景与科技力量</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">宣传片</span>
+              <span class="work-card__tool-tag">航拍创作</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 3：一簪入梦 -->
+        <article class="work-card reveal" data-bvid="BV1KEgQ6EECK" tabindex="0" role="button"
+                 aria-label="查看作品：一簪入梦" data-href="https://www.bilibili.com/video/BV1KEgQ6EECK?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover style="background-image: url('images/cover-03.png');">
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">《一簪入梦》</h3>
+            <p class="work-card__desc">古风意境短片，以簪为引，入梦寻踪，展现东方美学韵味</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">AI视频生成</span>
+              <span class="work-card__tool-tag">古风创作</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 6：鞋子宣传片 -->
+        <article class="work-card reveal" data-bvid="BV1KEgQ6EErY" tabindex="0" role="button"
+                 aria-label="查看作品：鞋子宣传片" data-href="https://www.bilibili.com/video/BV1KEgQ6EErY?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover style="background-image: url('images/cover-06.png');">
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">鞋子宣传片</h3>
+            <p class="work-card__desc">产品创意广告，融合动感镜头与光影特效，展现潮流单品魅力</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">产品广告</span>
+              <span class="work-card__tool-tag">创意特效</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 8：欧美打斗 -->
+        <article class="work-card reveal" data-bvid="BV1sJgQ6mEio" tabindex="0" role="button"
+                 aria-label="查看作品：欧美打斗" data-href="https://www.bilibili.com/video/BV1sJgQ6mEio?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover style="background-image: url('images/cover-08.png');">
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">欧美打斗</h3>
+            <p class="work-card__desc">高燃动作短片，硬核欧美风打斗场面，拳拳到肉的视觉冲击</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">AI视频生成</span>
+              <span class="work-card__tool-tag">动作特效</span>
             </div>
           </div>
         </article>
@@ -1018,9 +990,7 @@
       <h2 class="section__title reveal"><span>联系</span>我</h2>
       <p class="section__subtitle reveal">期待与您交流，共同探索AI创意视频的边界</p>
 
-      <div class="contact__grid reveal">
-        <!-- 左侧：联系信息 -->
-        <div class="contact__info">
+      <div class="contact__info reveal">
           <a href="mailto:your.email@example.com" class="contact__item">
             <i class="fa-solid fa-envelope" aria-hidden="true"></i>
             <span>3196762712@qq.com</span>
@@ -1037,26 +1007,6 @@
             无论您是寻找创意合作伙伴、招聘AI视频人才，还是想交流前沿技术——我都很乐意与您聊聊。
           </p>
         </div>
-
-        <!-- 右侧：联系表单（仅UI演示，无后端） -->
-        <form class="contact__form" id="contactForm" novalidate>
-          <div class="form-group">
-            <label for="formName">姓名</label>
-            <input type="text" id="formName" name="name" placeholder="请输入您的姓名" required autocomplete="name">
-          </div>
-          <div class="form-group">
-            <label for="formEmail">邮箱</label>
-            <input type="email" id="formEmail" name="email" placeholder="请输入您的邮箱" required autocomplete="email">
-          </div>
-          <div class="form-group">
-            <label for="formMessage">留言</label>
-            <textarea id="formMessage" name="message" placeholder="请留下您的留言……" required></textarea>
-          </div>
-          <button type="submit" class="btn btn--primary">
-            <i class="fa-solid fa-paper-plane"></i> 发送留言
-          </button>
-        </form>
-      </div>
     </section>
   </main>
 
@@ -1079,8 +1029,6 @@
   </div>
 
   <!-- Toast 提示 -->
-  <div class="toast" id="toast" aria-live="polite"></div>
-
   <!-- ==================== JavaScript ==================== -->
   <script>
     (function () {
@@ -1091,8 +1039,6 @@
       const hamburger = document.getElementById('hamburger');
       const navLinks = document.getElementById('navLinks');
       const navOverlay = document.getElementById('navOverlay');
-      const toast = document.getElementById('toast');
-      const contactForm = document.getElementById('contactForm');
       const pwdOverlay = document.getElementById('pwdOverlay');
       const pwdInput = document.getElementById('pwdInput');
       const pwdError = document.getElementById('pwdError');
@@ -1236,41 +1182,6 @@
         });
       }
       loadBilibiliCovers();
-
-      /* ========== 联系表单提交（演示） ========== */
-      contactForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // 简单校验
-        var name = document.getElementById('formName').value.trim();
-        var email = document.getElementById('formEmail').value.trim();
-        var message = document.getElementById('formMessage').value.trim();
-
-        if (!name || !email || !message) {
-          showToast('请填写所有必填字段', false);
-          return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          showToast('请输入有效的邮箱地址', false);
-          return;
-        }
-
-        // 模拟提交成功
-        showToast('✓ 感谢留言，我会尽快回复！（演示版）', true);
-        contactForm.reset();
-      });
-
-      /* ========== Toast 提示 ========== */
-      function showToast(msg, isSuccess) {
-        toast.textContent = msg;
-        toast.style.background = isSuccess ? 'var(--accent)' : '#ef4444';
-        toast.style.color = isSuccess ? '#000' : '#fff';
-        toast.classList.add('show');
-        clearTimeout(toast._timeout);
-        toast._timeout = setTimeout(function () {
-          toast.classList.remove('show');
-        }, 3000);
-      }
 
       /* ========== Intersection Observer 淡入动画 ========== */
       var observerOptions = {
