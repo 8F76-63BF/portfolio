@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI视频创意设计师个人作品集 - 融合技术与艺术，用AI工具创作令人惊叹的视频内容">
+  <title>AI视频创意设计师 | 个人作品集</title>
+
+  <!-- Font Awesome 6 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ==================== CSS 变量 ==================== */
+    :root {
+      --primary: #6C63FF;
+      --primary-glow: rgba(108, 99, 255, 0.4);
+      --accent: #00D4AA;
+      --accent-glow: rgba(0, 212, 170, 0.3);
+      --bg-dark: #0B0C10;
+      --bg-card: rgba(255, 255, 255, 0.04);
+      --bg-glass: rgba(255, 255, 255, 0.06);
+      --text-primary: #EAEAEA;
+      --text-secondary: #A0A0B0;
+      --text-muted: #6B6B7B;
+      --border-glass: rgba(255, 255, 255, 0.08);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      --nav-height: 70px;
+      --max-width: 1200px;
+    }
+
+    /* ==================== 全局重置 ==================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--nav-height);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==================== CSS 背景动画（网格 + 光点） ==================== */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* 微妙网格 */
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(108, 99, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108, 99, 255, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridDrift 20s linear infinite;
+    }
+    @keyframes gridDrift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(60px, 60px); }
+    }
+
+    /* 浮动光斑 */
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+      animation: orbFloat 12s ease-in-out infinite;
+    }
+    .bg-orb--1 {
+      width: 500px; height: 500px;
+      background: var(--primary);
+      top: -15%; left: -10%;
+      animation-delay: 0s;
+    }
+    .bg-orb--2 {
+      width: 400px; height: 400px;
+      background: var(--accent);
+      bottom: -10%; right: -8%;
+      animation-delay: -6s;
+    }
+    .bg-orb--3 {
+      width: 300px; height: 300px;
+      background: #8B5CF6;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: -3s;
+    }
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(40px, -30px) scale(1.08); }
+      50% { transform: translate(-20px, 20px) scale(0.94); }
+      75% { transform: translate(-35px, -15px) scale(1.04); }
+    }
+
+    /* ==================== 导航栏 ==================== */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 60px);
+      transition: background var(--transition), backdrop-filter var(--transition), box-shadow var(--transition);
+    }
+    .navbar.scrolled {
+      background: rgba(11, 12, 16, 0.75);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 1px 0 var(--border-glass), 0 4px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-logo {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      position: relative;
+      transition: color var(--transition);
+      padding: 4px 0;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--primary);
+      border-radius: 1px;
+      transition: width var(--transition);
+    }
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text-primary);
+    }
+    .nav-links a:hover::after,
+    .nav-links a:focus-visible::after {
+      width: 100%;
+    }
+
+    /* 汉堡菜单 */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 8px;
+      z-index: 1001;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px; height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* ==================== 区域通用 ==================== */
+    .section {
+      position: relative;
+      z-index: 1;
+      padding: 100px clamp(20px, 5vw, 60px);
+    }
+    .section__title {
+      text-align: center;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+    .section__subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 3rem;
+    }
+    .section__title span {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* 淡入浮动动画 */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==================== Hero 区域 ==================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: var(--nav-height);
+    }
+    .hero__inner {
+      max-width: 700px;
+    }
+
+    /* 圆形头像 */
+    .hero__avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 0 auto 1.8rem;
+      background: linear-gradient(135deg, var(--primary), #8B5CF6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 60px var(--primary-glow);
+    }
+    .hero__avatar::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent), var(--primary));
+      background-size: 200% 200%;
+      animation: avatarRing 3s ease infinite;
+      z-index: -1;
+      opacity: 0.6;
+    }
+    @keyframes avatarRing {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .hero__avatar .fa-camera {
+      font-size: 3rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .hero__name {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+    .hero__title {
+      font-size: 1.15rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+    .hero__bio {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      max-width: 560px;
+      margin: 0 auto 2rem;
+    }
+
+    /* 技能标签云 */
+    .hero__tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 2.6rem;
+    }
+    .hero__tag {
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      color: var(--text-secondary);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .hero__tag:hover {
+      border-color: var(--primary);
+      color: var(--text-primary);
+      box-shadow: 0 0 20px var(--primary-glow);
+      transform: translateY(-2px);
+    }
+
+    /* CTA 按钮 */
+    .hero__cta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition);
+      letter-spacing: 0.02em;
+    }
+    .btn--primary {
+      background: linear-gradient(135deg, var(--primary), #8B5CF6);
+      color: #fff;
+      box-shadow: 0 4px 24px var(--primary-glow);
+    }
+    .btn--primary:hover {
+      box-shadow: 0 6px 36px rgba(108, 99, 255, 0.55);
+      transform: translateY(-2px);
+    }
+    .btn--ghost {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+    }
+    .btn--ghost:hover {
+      border-color: var(--primary);
+      background: rgba(108, 99, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* ==================== 作品区域 ==================== */
+    .works {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .works__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* 作品卡片 */
+    .work-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius);
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .work-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(108, 99, 255, 0.3);
+      box-shadow: 0 12px 40px rgba(108, 99, 255, 0.15), 0 0 0 1px rgba(108, 99, 255, 0.1) inset;
+    }
+
+    /* 缩略图容器 16:9 */
+    .work-card__thumb {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      overflow: hidden;
+      background-color: #1a1a2e;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .work-card__thumb-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+    .work-card__thumb-overlay .fa-circle-play {
+      font-size: 3rem;
+      color: rgba(255, 255, 255, 0.7);
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+      transition: all var(--transition);
+    }
+    .work-card:hover .work-card__thumb-overlay .fa-circle-play {
+      color: #fff;
+      transform: scale(1.12);
+      filter: drop-shadow(0 4px 20px var(--primary-glow));
+    }
+    .work-card:hover .work-card__thumb-overlay {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .work-card__body {
+      padding: 20px;
+    }
+    .work-card__title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .work-card__desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    .work-card__tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .work-card__tool-tag {
+      font-size: 0.75rem;
+      padding: 3px 12px;
+      border-radius: 999px;
+      background: rgba(108, 99, 255, 0.12);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* ==================== 联系区域 ==================== */
+    .contact {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* 左侧联系信息 */
+    .contact__info {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .contact__item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 16px 20px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition);
+    }
+    .contact__item:hover {
+      border-color: var(--primary);
+      color: var(--text-primary);
+    }
+    .contact__item i {
+      font-size: 1.4rem;
+      color: var(--primary);
+      width: 28px;
+      text-align: center;
+    }
+    .contact__tagline {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-top: 4px;
+      padding-left: 4px;
+    }
+
+    /* 右侧联系表单 */
+    .contact__form {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius);
+      padding: 32px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .contact__form .form-group {
+      margin-bottom: 20px;
+    }
+    .contact__form label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-secondary);
+    }
+    .contact__form input,
+    .contact__form textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color var(--transition);
+      resize: vertical;
+    }
+    .contact__form input:focus,
+    .contact__form textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+    .contact__form textarea {
+      min-height: 100px;
+    }
+    .contact__form .btn--primary {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* 表单提交后的 Toast */
+    .toast {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      z-index: 3000;
+      background: var(--accent);
+      color: #000;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 32px var(--accent-glow);
+      opacity: 0;
+      transition: all 0.4s ease;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ==================== 密码验证弹窗 ==================== */
+    .pwd-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .pwd-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .pwd-dialog {
+      background: rgba(20, 22, 30, 0.95);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      text-align: center;
+      max-width: 380px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    .pwd-overlay.show .pwd-dialog {
+      transform: translateY(0);
+    }
+    .pwd-dialog__icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+    .pwd-dialog__title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .pwd-dialog__desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .pwd-dialog__input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-family: inherit;
+      text-align: center;
+      letter-spacing: 0.2em;
+      transition: border-color var(--transition);
+      margin-bottom: 16px;
+    }
+    .pwd-dialog__input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+    .pwd-dialog__error {
+      color: #ef4444;
+      font-size: 0.82rem;
+      margin-bottom: 12px;
+      min-height: 20px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .pwd-dialog__error.show {
+      opacity: 1;
+    }
+    .pwd-dialog__btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), #8B5CF6);
+      color: #fff;
+      transition: all var(--transition);
+      letter-spacing: 0.02em;
+    }
+    .pwd-dialog__btn:hover {
+      box-shadow: 0 4px 24px var(--primary-glow);
+    }
+
+    /* ==================== 页脚 ==================== */
+    .footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* ==================== 响应式 ==================== */
+    @media (max-width: 1024px) {
+      .contact__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* 汉堡菜单 */
+      .hamburger {
+        display: flex;
+      }
+      .nav-links {
+        position: fixed;
+        top: 0; right: 0;
+        width: 260px;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2rem;
+        background: rgba(11, 12, 16, 0.95);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        transform: translateX(100%);
+        transition: transform 0.35s ease;
+        box-shadow: -4px 0 32px rgba(0, 0, 0, 0.5);
+      }
+      .nav-links.open {
+        transform: translateX(0);
+      }
+      /* 移动端菜单打开时覆盖层 */
+      .nav-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        background: rgba(0, 0, 0, 0.4);
+      }
+      .nav-overlay.show {
+        display: block;
+      }
+
+      .works__grid {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== 背景特效 ==================== -->
+  <div class="bg-layer" aria-hidden="true">
+    <div class="bg-grid"></div>
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="bg-orb bg-orb--3"></div>
+  </div>
+
+  <!-- ==================== 导航栏 ==================== -->
+  <!--
+    ★ 替换提示：将下方 [Your Name] 替换为你的真实姓名
+  -->
+  <header class="navbar" id="navbar" role="banner">
+    <a href="#hero" class="nav-logo" aria-label="返回首页">阿熊ai创意设计师</a>
+
+    <!-- 汉堡按钮（移动端） -->
+    <button class="hamburger" id="hamburger" aria-label="菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- 导航覆盖层（移动端） -->
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <nav aria-label="主导航">
+      <ul class="nav-links" id="navLinks" role="menubar">
+        <li role="none"><a href="#hero" role="menuitem">关于</a></li>
+        <li role="none"><a href="#works" role="menuitem">作品</a></li>
+        <li role="none"><a href="#contact" role="menuitem">联系</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ==================== Hero / 关于 ==================== -->
+    <!--
+      ★ 替换提示：
+        - 将头像图片替换为你的真实照片：把下方 <i> 标签换成 <img src="your-photo.jpg" alt="[Your Name]的头像">
+        - 将 [Your Name] 替换为你的真实姓名
+        - 修改 .hero__bio 段落为你的个人介绍
+    -->
+    <section class="section hero" id="hero">
+      <div class="hero__inner reveal">
+        <!-- 圆形头像 -->
+        <div class="hero__avatar">
+          <!-- ★ 替换为真实头像：<img src="你的头像图片URL" alt="[Your Name]的头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"> -->
+          <i class="fa-solid fa-camera" aria-hidden="true"></i>
+        </div>
+
+        <h1 class="hero__name">[xiongjiale]</h1>
+        <p class="hero__title">文旅视频宣传创意设计师</p><p class="hero__title">后期视频处理师</p>
+        <p class="hero__bio">
+          我专注于用最前沿的AI工具创作令人惊叹的视频内容，将技术与艺术深度融合，
+          让创意突破传统边界、无限延伸。从脚本构思到最终成片，我致力于探索AI视频生成的每一种可能。
+        </p>
+
+        <!-- 技能标签云 -->
+        <div class="hero__tags">
+          <!-- ★ 可根据你的实际技能增删标签 -->
+          <span class="hero__tag">AI视频生成</span>
+          <span class="hero__tag">ChatGPT</span>
+          <span class="hero__tag">Gemini</span>
+          <span class="hero__tag">3dmax</span>
+          <span class="hero__tag">comfyui工作流搭建</span>
+          <span class="hero__tag">After Effects</span>
+          <span class="hero__tag">剪辑</span>
+          <span class="hero__tag">midjourney</span>
+          <span class="hero__tag">动态设计</span>
+           <span class="hero__tag">libtv</span>
+           <span class="hero__tag">故事脚本，分镜，人物创作，</span>
+        </div>
+
+        <!-- CTA 按钮 -->
+        <div class="hero__cta">
+          <a href="#works" class="btn btn--primary">
+            <i class="fa-solid fa-play"></i> 查看我的作品
+          </a>
+          <a href="#contact" class="btn btn--ghost">
+            <i class="fa-solid fa-paper-plane"></i> 联系我
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 作品展示 ==================== -->
+    <!--
+      ★ 替换提示：
+        每个作品卡片的 data-bvid 存储 Bilibili BV 视频 ID，data-href 存储完整链接。
+        点击卡片会在新标签页中打开 Bilibili 视频页面。
+        封面图通过 Bilibili API 自动获取，无需手动设置。
+        替换视频时只需修改 data-bvid 和 data-href 即可。
+    -->
+    <section class="section works" id="works">
+      <h2 class="section__title reveal">精选<span>作品</span></h2>
+      <p class="section__subtitle reveal">每一帧，都是AI与创意的碰撞</p>
+
+      <div class="works__grid">
+
+        <!-- 作品卡片 1：麻辣小火锅 第一集 -->
+        <!-- ★ 替换视频：修改 data-bvid 为新的 BV 号，并更新标题/描述 -->
+        <article class="work-card reveal" data-bvid="BV1zQGJ6pER5" tabindex="0" role="button"
+                 aria-label="查看作品：麻辣小火锅第一集" data-href="https://www.bilibili.com/video/BV1zQGJ6pER5">
+          <div class="work-card__thumb" data-cover>
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">麻辣小火锅 · 第一集</h3>
+            <p class="work-card__desc">麻辣女郎的不平凡之路，改变人生走向的一次冒险之旅</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">AI视频生成</span>
+              <span class="work-card__tool-tag">个人自创作品</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 2：麻辣小火锅 第二集 -->
+        <article class="work-card reveal" data-bvid="BV1JQGJ6pEWd" tabindex="0" role="button"
+                 aria-label="查看作品：麻辣小火锅第二集" data-href="https://www.bilibili.com/video/BV1JQGJ6pEWd">
+          <div class="work-card__thumb" data-cover>
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">麻辣小火锅 · 第二集</h3>
+            <p class="work-card__desc">故事继续上演，AI视觉叙事的新篇章</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">AI视频生成</span>
+              <span class="work-card__tool-tag">个人自创作品</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 3：一簪入梦 -->
+        <article class="work-card reveal" data-bvid="BV1KEgQ6EECK" tabindex="0" role="button"
+                 aria-label="查看作品：一簪入梦" data-href="https://www.bilibili.com/video/BV1KEgQ6EECK?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover>
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">《一簪入梦》</h3>
+            <p class="work-card__desc">古风意境短片，以簪为引，入梦寻踪，展现东方美学韵味</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">AI视频生成</span>
+              <span class="work-card__tool-tag">古风创作</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 4：二维武侠江湖 -->
+        <article class="work-card reveal" data-bvid="BV1SggQ6XEcZ" tabindex="0" role="button"
+                 aria-label="查看作品：二维武侠江湖" data-href="https://www.bilibili.com/video/BV1SggQ6XEcZ?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover>
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">二维武侠江湖</h3>
+            <p class="work-card__desc">手绘风武侠世界，刀光剑影间演绎江湖恩怨与侠客精神</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">AI视频生成</span>
+              <span class="work-card__tool-tag">动漫风格</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 5：无人机宣传片 -->
+        <article class="work-card reveal" data-bvid="BV1xEgQ6EEoe" tabindex="0" role="button"
+                 aria-label="查看作品：无人机宣传片" data-href="https://www.bilibili.com/video/BV1xEgQ6EEoe?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover>
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">无人机宣传片</h3>
+            <p class="work-card__desc">航拍视觉大片，以空中视角展现震撼场景与科技力量</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">宣传片</span>
+              <span class="work-card__tool-tag">航拍创作</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 6：鞋子宣传片 -->
+        <article class="work-card reveal" data-bvid="BV1KEgQ6EErY" tabindex="0" role="button"
+                 aria-label="查看作品：鞋子宣传片" data-href="https://www.bilibili.com/video/BV1KEgQ6EErY?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover>
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">鞋子宣传片</h3>
+            <p class="work-card__desc">产品创意广告，融合动感镜头与光影特效，展现潮流单品魅力</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">产品广告</span>
+              <span class="work-card__tool-tag">创意特效</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 7：赛博特效创意短片，赛博雷神 -->
+        <article class="work-card reveal" data-bvid="BV1SggQ6XE1S" tabindex="0" role="button"
+                 aria-label="查看作品：赛博雷神" data-href="https://www.bilibili.com/video/BV1SggQ6XE1S?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover>
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">赛博雷神</h3>
+            <p class="work-card__desc">赛博朋克风创意短片，雷神降临未来都市，特效炸裂</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">AI视频生成</span>
+              <span class="work-card__tool-tag">赛博朋克</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 8：欧美打斗 -->
+        <article class="work-card reveal" data-bvid="BV1sJgQ6mEio" tabindex="0" role="button"
+                 aria-label="查看作品：欧美打斗" data-href="https://www.bilibili.com/video/BV1sJgQ6mEio?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover>
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">欧美打斗</h3>
+            <p class="work-card__desc">高燃动作短片，硬核欧美风打斗场面，拳拳到肉的视觉冲击</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">AI视频生成</span>
+              <span class="work-card__tool-tag">动作特效</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 作品卡片 9：赛博科技，未来创意 -->
+        <article class="work-card reveal" data-bvid="BV1UggQ6XE97" tabindex="0" role="button"
+                 aria-label="查看作品：赛博科技未来创意" data-href="https://www.bilibili.com/video/BV1UggQ6XE97?vd_source=ba61db42d6339a896b6c801c5c0ef0a0">
+          <div class="work-card__thumb" data-cover>
+            <div class="work-card__thumb-overlay">
+              <i class="fa-regular fa-circle-play" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="work-card__body">
+            <h3 class="work-card__title">赛博科技 · 未来创意</h3>
+            <p class="work-card__desc">未来科技视觉盛宴，赛博美学与创意设计的深度融合</p>
+            <div class="work-card__tools">
+              <span class="work-card__tool-tag">AI视频生成</span>
+              <span class="work-card__tool-tag">未来科技</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ==================== 联系方式 ==================== -->
+    <!--
+      ★ 替换提示：
+        - 将邮箱 your.email@example.com 替换为你的真实邮箱
+        - 将电话号码 +86 138-0000-0000 替换为你的号码
+        - 将领英链接 # 替换为你的领英主页 URL
+    -->
+    <section class="section contact" id="contact">
+      <h2 class="section__title reveal"><span>联系</span>我</h2>
+      <p class="section__subtitle reveal">期待与您交流，共同探索AI创意视频的边界</p>
+
+      <div class="contact__grid reveal">
+        <!-- 左侧：联系信息 -->
+        <div class="contact__info">
+          <a href="mailto:your.email@example.com" class="contact__item">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+            <span>3196762712@qq.com</span>
+          </a>
+          <a href="tel:+8613800000000" class="contact__item">
+            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+            <span>15185800971</span>
+          </a>
+          <a href="#" class="contact__item">
+            <i class="fa-brands fa-weixin" aria-hidden="true"></i>
+            <span>15185800971</span>
+          </a>
+          <p class="contact__tagline">
+            无论您是寻找创意合作伙伴、招聘AI视频人才，还是想交流前沿技术——我都很乐意与您聊聊。
+          </p>
+        </div>
+
+        <!-- 右侧：联系表单（仅UI演示，无后端） -->
+        <form class="contact__form" id="contactForm" novalidate>
+          <div class="form-group">
+            <label for="formName">姓名</label>
+            <input type="text" id="formName" name="name" placeholder="请输入您的姓名" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="formEmail">邮箱</label>
+            <input type="email" id="formEmail" name="email" placeholder="请输入您的邮箱" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="formMessage">留言</label>
+            <textarea id="formMessage" name="message" placeholder="请留下您的留言……" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary">
+            <i class="fa-solid fa-paper-plane"></i> 发送留言
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 页脚 ==================== -->
+  <!-- ★ 替换提示：将 [Your Name] 替换为你的真实姓名 -->
+  <footer class="footer" role="contentinfo">
+    <p>&copy; 2026 阿熊ai创意设计师. 保留所有权利。</p>
+  </footer>
+
+  <!-- 密码验证弹窗 -->
+  <div class="pwd-overlay" id="pwdOverlay" aria-hidden="true">
+    <div class="pwd-dialog">
+      <div class="pwd-dialog__icon"><i class="fa-solid fa-lock"></i></div>
+      <div class="pwd-dialog__title">请输入访问密码</div>
+      <div class="pwd-dialog__desc">输入密码后方可查看作品视频</div>
+      <input type="password" class="pwd-dialog__input" id="pwdInput" placeholder="请输入密码" maxlength="32" autocomplete="off">
+      <div class="pwd-dialog__error" id="pwdError">密码错误，请重试</div>
+      <button class="pwd-dialog__btn" id="pwdConfirm">确认</button>
+    </div>
+  </div>
+
+  <!-- Toast 提示 -->
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <!-- ==================== JavaScript ==================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ========== DOM 引用 ========== */
+      const navbar = document.getElementById('navbar');
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      const navOverlay = document.getElementById('navOverlay');
+      const toast = document.getElementById('toast');
+      const contactForm = document.getElementById('contactForm');
+      const pwdOverlay = document.getElementById('pwdOverlay');
+      const pwdInput = document.getElementById('pwdInput');
+      const pwdError = document.getElementById('pwdError');
+      const pwdConfirm = document.getElementById('pwdConfirm');
+
+      // 密码的 SHA-256 哈希值（仅存哈希，不存明文）
+      var PASSWORD_HASH = '7a2ec40ff8a1247c532309355f798a779e00acff579c63eec3636ffb2902c1ac';
+      var pendingVideoUrl = null; // 暂存待打开的链接
+
+      /* ========== 导航栏滚动效果 ========== */
+      function onScroll() {
+        navbar.classList.toggle('scrolled', window.scrollY > 10);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll(); // 初始检测
+
+      /* ========== 汉堡菜单 ========== */
+      function openMenu() {
+        navLinks.classList.add('open');
+        navOverlay.classList.add('show');
+        hamburger.classList.add('active');
+        hamburger.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMenu() {
+        navLinks.classList.remove('open');
+        navOverlay.classList.remove('show');
+        hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+      hamburger.addEventListener('click', function () {
+        navLinks.classList.contains('open') ? closeMenu() : openMenu();
+      });
+      navOverlay.addEventListener('click', closeMenu);
+
+      // 点击导航链接后关闭菜单
+      navLinks.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      /* ========== 作品卡片：点击需验证密码 ========== */
+      // 如果已验证过（sessionStorage），直接跳转；否则弹出密码框
+      document.querySelectorAll('.work-card[data-href]').forEach(function (card) {
+        card.addEventListener('click', function () {
+          var url = card.getAttribute('data-href');
+          if (sessionStorage.getItem('_pwd_ok') === '1') {
+            window.open(url, '_blank', 'noopener');
+          } else {
+            pendingVideoUrl = url;
+            showPwdOverlay();
+          }
+        });
+      });
+
+      /* ========== 密码弹窗逻辑 ========== */
+      function showPwdOverlay() {
+        pwdOverlay.classList.add('show');
+        pwdOverlay.setAttribute('aria-hidden', 'false');
+        pwdInput.value = '';
+        pwdError.classList.remove('show');
+        setTimeout(function () { pwdInput.focus(); }, 100);
+      }
+
+      function hidePwdOverlay() {
+        pwdOverlay.classList.remove('show');
+        pwdOverlay.setAttribute('aria-hidden', 'true');
+        pendingVideoUrl = null;
+      }
+
+      // 使用 SHA-256 哈希比对，明文密码不出现在代码中
+      function verifyPassword(input) {
+        // 使用 Web Crypto API 做 SHA-256
+        var encoder = new TextEncoder();
+        var data = encoder.encode(input);
+        return crypto.subtle.digest('SHA-256', data).then(function (hashBuffer) {
+          var hashArray = Array.from(new Uint8Array(hashBuffer));
+          var hashHex = hashArray.map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+          return hashHex === PASSWORD_HASH;
+        });
+      }
+
+      pwdConfirm.addEventListener('click', function () {
+        var input = pwdInput.value.trim();
+        if (!input) {
+          pwdError.textContent = '请输入密码';
+          pwdError.classList.add('show');
+          return;
+        }
+        verifyPassword(input).then(function (ok) {
+          if (ok) {
+            sessionStorage.setItem('_pwd_ok', '1');
+            hidePwdOverlay();
+            if (pendingVideoUrl) {
+              window.open(pendingVideoUrl, '_blank', 'noopener');
+              pendingVideoUrl = null;
+            }
+          } else {
+            pwdError.textContent = '密码错误，请重试';
+            pwdError.classList.add('show');
+            pwdInput.value = '';
+            pwdInput.focus();
+          }
+        });
+      });
+
+      // 回车键提交
+      pwdInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { pwdConfirm.click(); }
+      });
+
+      // 点击弹窗外部关闭
+      pwdOverlay.addEventListener('click', function (e) {
+        if (e.target === pwdOverlay) { hidePwdOverlay(); }
+      });
+
+      /* ========== Bilibili API：自动获取视频封面 ========== */
+      /*
+        通过 Bilibili 公开 API 获取视频封面图 URL。
+        API 返回 data.pic 即封面图地址（@referer 防盗链，本地 HTML 直接可访问）。
+      */
+      function loadBilibiliCovers() {
+        var cards = document.querySelectorAll('.work-card[data-bvid]');
+        cards.forEach(function (card) {
+          var bvid = card.getAttribute('data-bvid');
+          var thumbEl = card.querySelector('[data-cover]');
+          if (!bvid || !thumbEl) return;
+
+          // Bilibili 公开 API：获取视频信息
+          fetch('https://api.bilibili.com/x/web-interface/view?bvid=' + encodeURIComponent(bvid))
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+              if (data && data.code === 0 && data.data && data.data.pic) {
+                // 设置封面背景图（使用 B 站 CDN 原图）
+                thumbEl.style.backgroundImage = 'url(' + data.data.pic + ')';
+              }
+            })
+            .catch(function () {
+              // API 调用失败时保持默认渐变背景
+            });
+        });
+      }
+      loadBilibiliCovers();
+
+      /* ========== 联系表单提交（演示） ========== */
+      contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // 简单校验
+        var name = document.getElementById('formName').value.trim();
+        var email = document.getElementById('formEmail').value.trim();
+        var message = document.getElementById('formMessage').value.trim();
+
+        if (!name || !email || !message) {
+          showToast('请填写所有必填字段', false);
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showToast('请输入有效的邮箱地址', false);
+          return;
+        }
+
+        // 模拟提交成功
+        showToast('✓ 感谢留言，我会尽快回复！（演示版）', true);
+        contactForm.reset();
+      });
+
+      /* ========== Toast 提示 ========== */
+      function showToast(msg, isSuccess) {
+        toast.textContent = msg;
+        toast.style.background = isSuccess ? 'var(--accent)' : '#ef4444';
+        toast.style.color = isSuccess ? '#000' : '#fff';
+        toast.classList.add('show');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(function () {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+
+      /* ========== Intersection Observer 淡入动画 ========== */
+      var observerOptions = {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      };
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>
